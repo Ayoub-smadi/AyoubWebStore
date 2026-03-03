@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { ShoppingBag, User, LogOut, LayoutDashboard, Menu, Moon, Sun } from "lucide-react";
+import { ShoppingBag, User, LogOut, LayoutDashboard, Menu, Moon, Sun, Languages } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import { useCart } from "@/hooks/use-cart";
 import { Button } from "@/components/ui/button";
@@ -18,16 +18,27 @@ export function Navbar() {
   const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
   const [, setLocation] = useLocation();
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  const [lang, setLang] = useState<'en' | 'ar'>('en');
 
   useEffect(() => {
     const isDark = document.documentElement.classList.contains('dark');
     setTheme(isDark ? 'dark' : 'light');
+    
+    const currentLang = document.documentElement.dir === 'rtl' ? 'ar' : 'en';
+    setLang(currentLang);
   }, []);
 
   const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
     setTheme(newTheme);
     document.documentElement.classList.toggle('dark', newTheme === 'dark');
+  };
+
+  const toggleLanguage = () => {
+    const newLang = lang === 'en' ? 'ar' : 'en';
+    setLang(newLang);
+    document.documentElement.dir = newLang === 'ar' ? 'rtl' : 'ltr';
+    document.documentElement.lang = newLang;
   };
 
   const handleLogout = async () => {
@@ -54,7 +65,11 @@ export function Navbar() {
             </div>
           </div>
 
-          <div className="flex items-center space-x-2 sm:space-x-4">
+          <div className="flex items-center space-x-2 sm:space-x-4 rtl:space-x-reverse">
+            <Button variant="ghost" size="icon" onClick={toggleLanguage} className="rounded-full">
+              <Languages className="h-5 w-5" />
+            </Button>
+
             <Button variant="ghost" size="icon" onClick={toggleTheme} className="rounded-full">
               {theme === 'light' ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
             </Button>

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=Noto+Sans+Arabic:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -8,6 +8,7 @@
   :root {
     --font-display: 'Plus Jakarta Sans', sans-serif;
     --font-sans: 'Inter', sans-serif;
+    --font-arabic: 'Noto Sans Arabic', sans-serif;
 
     /* Light Mode - Crisp, premium minimal */
     --background: 0 0% 100%;
@@ -70,9 +71,17 @@
     font-family: var(--font-sans);
   }
 
+  [dir="rtl"] body {
+    font-family: var(--font-arabic);
+  }
+
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
     @apply tracking-tight;
+  }
+
+  [dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3, [dir="rtl"] h4, [dir="rtl"] h5, [dir="rtl"] h6 {
+    font-family: var(--font-arabic);
   }
 }
 
