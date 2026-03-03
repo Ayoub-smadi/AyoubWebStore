@@ -5,8 +5,10 @@ import { useProducts } from "@/hooks/use-products";
 import { formatJOD } from "@/lib/utils";
 import { Navbar } from "@/components/layout/Navbar";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useTranslation } from 'react-i18next';
 
 export function HomePage() {
+  const { t } = useTranslation();
   const { data: products, isLoading } = useProducts();
   const featured = products?.slice(0, 4) || [];
 
@@ -20,10 +22,10 @@ export function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary/80 backdrop-blur-sm border border-border text-sm font-medium mb-8 animate-in slide-in-from-bottom-4 duration-500">
             <Star className="h-4 w-4 text-primary fill-primary" />
-            <span>Premium Quality E-Commerce</span>
+            <span>{t('home.hero_title')}</span>
           </div>
           <h1 className="text-5xl md:text-7xl font-display font-extrabold tracking-tight mb-8 text-balance mx-auto max-w-4xl animate-in slide-in-from-bottom-6 duration-700">
-            Discover Exceptional Products for Your Lifestyle
+            {t('home.hero_subtitle')}
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground mb-10 max-w-2xl mx-auto animate-in slide-in-from-bottom-8 duration-700 delay-100">
             Curated collections delivered straight to your door with flat-rate shipping across Jordan.
@@ -31,7 +33,7 @@ export function HomePage() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-in slide-in-from-bottom-10 duration-700 delay-200">
             <Link href="/products">
               <Button size="lg" className="rounded-full px-8 h-14 text-lg w-full sm:w-auto shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:-translate-y-1 transition-all">
-                Shop Collection <ArrowRight className="ml-2 h-5 w-5" />
+                {t('home.shop_now')} <ArrowRight className="ml-2 h-5 w-5 rtl:rotate-180" />
               </Button>
             </Link>
           </div>

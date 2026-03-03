@@ -1,4 +1,5 @@
 import { Link, useLocation } from "wouter";
+import { useTranslation } from 'react-i18next';
 import { ShoppingBag, User, LogOut, LayoutDashboard, Menu, Moon, Sun, Languages } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import { useCart } from "@/hooks/use-cart";
@@ -13,19 +14,16 @@ import {
 import { useEffect, useState } from "react";
 
 export function Navbar() {
+  const { t, i18n } = useTranslation();
   const { user, logout } = useAuth();
   const cartItems = useCart((state) => state.items);
   const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
   const [, setLocation] = useLocation();
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
-  const [lang, setLang] = useState<'en' | 'ar'>('en');
 
   useEffect(() => {
     const isDark = document.documentElement.classList.contains('dark');
     setTheme(isDark ? 'dark' : 'light');
-    
-    const currentLang = document.documentElement.dir === 'rtl' ? 'ar' : 'en';
-    setLang(currentLang);
   }, []);
 
   const toggleTheme = () => {
@@ -35,8 +33,8 @@ export function Navbar() {
   };
 
   const toggleLanguage = () => {
-    const newLang = lang === 'en' ? 'ar' : 'en';
-    setLang(newLang);
+    const newLang = i18n.language === 'en' ? 'ar' : 'en';
+    i18n.changeLanguage(newLang);
     document.documentElement.dir = newLang === 'ar' ? 'rtl' : 'ltr';
     document.documentElement.lang = newLang;
   };
@@ -59,9 +57,9 @@ export function Navbar() {
                 Ayoub<span className="text-primary">.</span>
               </span>
             </Link>
-            <div className="hidden md:flex items-center space-x-6">
-              <Link href="/" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Home</Link>
-              <Link href="/products" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Shop</Link>
+            <div className="hidden md:flex items-center space-x-6 rtl:space-x-reverse">
+              <Link href="/" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">{t('nav.home')}</Link>
+              <Link href="/products" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">{t('nav.shop')}</Link>
             </div>
           </div>
 
@@ -102,25 +100,25 @@ export function Navbar() {
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={() => setLocation("/profile")} className="cursor-pointer rounded-md py-2">
                     <User className="mr-2 h-4 w-4 text-muted-foreground" />
-                    <span>Profile</span>
+                    <span>{t('nav.profile')}</span>
                   </DropdownMenuItem>
                   {user.role === 'admin' && (
                     <DropdownMenuItem onClick={() => setLocation("/admin")} className="cursor-pointer rounded-md py-2">
                       <LayoutDashboard className="mr-2 h-4 w-4 text-muted-foreground" />
-                      <span>Admin Dashboard</span>
+                      <span>{t('nav.admin')}</span>
                     </DropdownMenuItem>
                   )}
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={handleLogout} className="cursor-pointer text-destructive focus:text-destructive rounded-md py-2">
                     <LogOut className="mr-2 h-4 w-4" />
-                    <span>Log out</span>
+                    <span>{t('nav.logout')}</span>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
               <Link href="/login">
                 <Button className="rounded-full px-6 font-semibold shadow-md hover:shadow-lg transition-all">
-                  Sign In
+                  {t('nav.signin')}
                 </Button>
               </Link>
             )}
