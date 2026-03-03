@@ -182,6 +182,12 @@ export async function registerRoutes(
     res.json(stats);
   });
 
+  app.get("/api/stats/products", async (req, res) => {
+    if (!req.isAuthenticated() || (req.user as any).role !== 'admin') return res.status(401).json({ message: "Unauthorized" });
+    const stats = await storage.getProductStats();
+    res.json(stats);
+  });
+
   // Call seed database asynchronously
   seedDatabase().catch(console.error);
 

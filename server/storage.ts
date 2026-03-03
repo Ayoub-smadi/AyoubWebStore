@@ -7,8 +7,14 @@ import {
   type Order, type InsertOrder,
   type OrderItem, type InsertOrderItem
 } from "@shared/schema";
+import session from "express-session";
+import connectPg from "connect-pg-simple";
+import { pool } from "./db";
+
+const PostgresSessionStore = connectPg(session);
 
 export interface IStorage {
+  sessionStore: session.Store;
   // User
   getUser(id: number): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
@@ -29,9 +35,19 @@ export interface IStorage {
   
   // Stats
   getStats(): Promise<{ totalProducts: number; totalUsers: number; totalOrders: number; revenue: number }>;
+  getProductStats(): Promise<{ category: string; count: number }[]>;
 }
 
 export class DatabaseStorage implements IStorage {
+  sessionStore: session.Store;
+
+  constructor() {
+    this.sessionStore = new PostgresSessionStore({
+      pool,
+      createTableIfMissing: true,
+    });
+  }
+
   async getUser(id: number): Promise<User | undefined> {
     const [user] = await db.select().from(users).where(eq(users.id, id));
     return user;
@@ -121,6 +137,21 @@ export class DatabaseStorage implements IStorage {
       totalOrders: Number(ordersCount.count) || 0,
       revenue: Number(revenueResult.total) || 0,
     };
+  }
+
+  async getProductStats(): Promise<{ category: string; count: number }[]> {
+    const stats = await db
+      .select({
+        category: products.category,
+        count: sql<number>`count(*)`,
+      })
+      .from(products)
+      .groupBy(products.category);
+    
+    return stats.map(s => ({
+      category: s.category || "Uncategorized",
+      count: Number(s.count)
+    }));
   }
 }
 

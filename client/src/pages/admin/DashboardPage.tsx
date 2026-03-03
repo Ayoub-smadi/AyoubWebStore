@@ -3,9 +3,10 @@ import { useStats } from "@/hooks/use-stats";
 import { formatJOD } from "@/lib/utils";
 import { Package, Users, ShoppingCart, DollarSign, TrendingUp } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
+import { useQuery } from "@tanstack/react-query";
 
-// Dummy data for chart since backend stats is aggregated
+// Dummy data for revenue chart
 const chartData = [
   { name: 'Jan', revenue: 4000 },
   { name: 'Feb', revenue: 3000 },
@@ -16,11 +17,21 @@ const chartData = [
   { name: 'Jul', revenue: 3490 },
 ];
 
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d'];
+
 export function DashboardPage() {
   const { data: stats, isLoading } = useStats();
+  const { data: productStats, isLoading: isLoadingProductStats } = useQuery({
+    queryKey: ["/api/stats/products"],
+    queryFn: async () => {
+      const res = await fetch("/api/stats/products");
+      if (!res.ok) throw new Error("Failed to fetch product stats");
+      return res.json() as Promise<{ category: string; count: number }[]>;
+    }
+  });
 
   const cards = [
-    { title: "Total Revenue", value: stats ? formatJOD(stats.revenue) : "JOD 0.00", icon: DollarSign, trend: "+12%" },
+    { title: "Total Revenue", value: stats ? formatJOD(Number(stats.revenue)) : "JOD 0.00", icon: DollarSign, trend: "+12%" },
     { title: "Total Orders", value: stats?.totalOrders || 0, icon: ShoppingCart, trend: "+5%" },
     { title: "Products", value: stats?.totalProducts || 0, icon: Package, trend: "+2%" },
     { title: "Active Users", value: stats?.totalUsers || 0, icon: Users, trend: "+18%" },
@@ -56,23 +67,59 @@ export function DashboardPage() {
         </div>
       )}
 
-      <div className="bg-card border border-border rounded-2xl p-6 shadow-sm h-[400px]">
-        <div className="mb-6">
-          <h3 className="text-lg font-bold">Revenue Overview</h3>
-          <p className="text-sm text-muted-foreground">Monthly revenue performance</p>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        <div className="bg-card border border-border rounded-2xl p-6 shadow-sm h-[400px]">
+          <div className="mb-6">
+            <h3 className="text-lg font-bold">Revenue Overview</h3>
+            <p className="text-sm text-muted-foreground">Monthly revenue performance</p>
+          </div>
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart data={chartData} margin={{ top: 5, right: 20, bottom: 25, left: 0 }}>
+              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border))" />
+              <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: 'hsl(var(--muted-foreground))', fontSize: 12}} dy={10} />
+              <YAxis axisLine={false} tickLine={false} tick={{fill: 'hsl(var(--muted-foreground))', fontSize: 12}} tickFormatter={(value) => `JOD ${value}`} />
+              <Tooltip 
+                contentStyle={{ backgroundColor: 'hsl(var(--card))', borderColor: 'hsl(var(--border))', borderRadius: '8px' }}
+                itemStyle={{ color: 'hsl(var(--primary))' }}
+              />
+              <Line type="monotone" dataKey="revenue" stroke="hsl(var(--primary))" strokeWidth={3} dot={{r: 4, fill: 'hsl(var(--background))', strokeWidth: 2}} activeDot={{r: 6}} />
+            </LineChart>
+          </ResponsiveContainer>
         </div>
-        <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={chartData} margin={{ top: 5, right: 20, bottom: 25, left: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border))" />
-            <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: 'hsl(var(--muted-foreground))', fontSize: 12}} dy={10} />
-            <YAxis axisLine={false} tickLine={false} tick={{fill: 'hsl(var(--muted-foreground))', fontSize: 12}} tickFormatter={(value) => `JOD ${value}`} />
-            <Tooltip 
-              contentStyle={{ backgroundColor: 'hsl(var(--card))', borderColor: 'hsl(var(--border))', borderRadius: '8px' }}
-              itemStyle={{ color: 'hsl(var(--primary))' }}
-            />
-            <Line type="monotone" dataKey="revenue" stroke="hsl(var(--primary))" strokeWidth={3} dot={{r: 4, fill: 'hsl(var(--background))', strokeWidth: 2}} activeDot={{r: 6}} />
-          </LineChart>
-        </ResponsiveContainer>
+
+        <div className="bg-card border border-border rounded-2xl p-6 shadow-sm h-[400px]">
+          <div className="mb-6">
+            <h3 className="text-lg font-bold">Product Categories</h3>
+            <p className="text-sm text-muted-foreground">Distribution of products by category</p>
+          </div>
+          {isLoadingProductStats ? (
+            <div className="flex items-center justify-center h-full">
+              <Skeleton className="h-48 w-48 rounded-full" />
+            </div>
+          ) : (
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={productStats}
+                  cx="50%"
+                  cy="45%"
+                  innerRadius={60}
+                  outerRadius={100}
+                  paddingAngle={5}
+                  dataKey="count"
+                  nameKey="category"
+                  label={({ category, percent }) => `${category} (${(percent * 100).toFixed(0)}%)`}
+                >
+                  {productStats?.map((_, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip />
+                <Legend verticalAlign="bottom" height={36}/>
+              </PieChart>
+            </ResponsiveContainer>
+          )}
+        </div>
       </div>
     </AdminLayout>
   );
