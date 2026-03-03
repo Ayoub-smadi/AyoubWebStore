@@ -28,7 +28,7 @@ export function HomePage() {
             {t('home.hero_subtitle')}
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground mb-10 max-w-2xl mx-auto animate-in slide-in-from-bottom-8 duration-700 delay-100">
-            Curated collections delivered straight to your door with flat-rate shipping across Jordan.
+            {t('home.hero_desc')}
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-in slide-in-from-bottom-10 duration-700 delay-200">
             <Link href="/products">
@@ -45,9 +45,9 @@ export function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { icon: Truck, title: "Fast Delivery", desc: "Flat rate JOD 5.00 shipping nationwide" },
-              { icon: ShieldCheck, title: "Secure Checkout", desc: "Your data is encrypted and safe" },
-              { icon: Star, title: "Premium Quality", desc: "Handpicked items for the best experience" }
+              { icon: Truck, title: t('home.features.delivery'), desc: t('home.features.delivery_desc') },
+              { icon: ShieldCheck, title: t('home.features.secure'), desc: t('home.features.secure_desc') },
+              { icon: Star, title: t('home.features.quality'), desc: t('home.features.quality_desc') }
             ].map((f, i) => (
               <div key={i} className="bg-card p-8 rounded-2xl border border-border/50 text-center hover-elevate">
                 <div className="h-14 w-14 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
@@ -65,11 +65,11 @@ export function HomePage() {
       <section className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="flex justify-between items-end mb-12">
           <div>
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">Featured Additions</h2>
-            <p className="text-muted-foreground">Our newest and most popular items.</p>
+            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">{t('home.featured')}</h2>
+            <p className="text-muted-foreground">{t('home.featured_desc')}</p>
           </div>
           <Link href="/products" className="hidden md:flex text-primary font-medium hover:underline items-center gap-1">
-            View All <ArrowRight className="h-4 w-4" />
+            {t('home.view_all')} <ArrowRight className="h-4 w-4 rtl:rotate-180" />
           </Link>
         </div>
 
@@ -105,7 +105,7 @@ export function HomePage() {
                     )}
                     {product.stock === 0 && (
                       <div className="absolute top-4 right-4 bg-destructive text-destructive-foreground text-xs font-bold px-3 py-1 rounded-full">
-                        Out of Stock
+                        {t('products.out_of_stock')}
                       </div>
                     )}
                   </div>
@@ -125,7 +125,7 @@ export function HomePage() {
         <div className="mt-12 text-center md:hidden">
           <Link href="/products">
             <Button variant="outline" className="rounded-full">
-              View All Products
+              {t('home.view_all')}
             </Button>
           </Link>
         </div>
@@ -134,7 +134,7 @@ export function HomePage() {
       {/* Footer */}
       <footer className="mt-auto py-12 border-t border-border bg-card">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-muted-foreground">
-          <p>© {new Date().getFullYear()} Ayoub Web Store. All rights reserved.</p>
+          <p>{t('home.copyright', { year: new Date().getFullYear() })}</p>
         </div>
       </footer>
     </div>

@@ -6,7 +6,10 @@ import { Button } from "@/components/ui/button";
 import { Minus, Plus, Trash2, ShoppingBag, ArrowRight } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 
+import { useTranslation } from 'react-i18next';
+
 export function CartPage() {
+  const { t } = useTranslation();
   const { items, updateQuantity, removeItem, getTotal } = useCart();
   const [, setLocation] = useLocation();
 
@@ -17,16 +20,16 @@ export function CartPage() {
       <Navbar />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full flex-1">
-        <h1 className="text-4xl font-display font-bold mb-10">Shopping Cart</h1>
+        <h1 className="text-4xl font-display font-bold mb-10">{t('cart.title')}</h1>
 
         {items.length === 0 ? (
           <div className="text-center py-32 bg-card rounded-3xl border border-border border-dashed">
             <ShoppingBag className="h-16 w-16 mx-auto text-muted-foreground mb-6 opacity-20" />
-            <h2 className="text-2xl font-bold mb-4">Your cart is empty</h2>
-            <p className="text-muted-foreground mb-8">Looks like you haven't added anything to your cart yet.</p>
+            <h2 className="text-2xl font-bold mb-4">{t('cart.empty')}</h2>
+            <p className="text-muted-foreground mb-8">{t('cart.empty_desc')}</p>
             <Link href="/products">
               <Button size="lg" className="rounded-full px-8 h-12">
-                Start Shopping
+                {t('cart.start_shopping')}
               </Button>
             </Link>
           </div>
@@ -44,15 +47,15 @@ export function CartPage() {
                   </div>
                   
                   <div className="flex-1 flex flex-col w-full">
-                    <div className="flex justify-between items-start mb-2">
+                    <div className="flex justify-between items-start mb-2 rtl:flex-row-reverse">
                       <Link href={`/products/${item.product.id}`}>
                         <h3 className="font-bold text-lg hover:text-primary transition-colors line-clamp-1">{item.product.name}</h3>
                       </Link>
-                      <div className="font-display font-bold text-lg whitespace-nowrap ml-4">
+                      <div className="font-display font-bold text-lg whitespace-nowrap ml-4 rtl:ml-0 rtl:mr-4">
                         {formatJOD(Number(item.product.price) * item.quantity)}
                       </div>
                     </div>
-                    <p className="text-sm text-muted-foreground mb-6">{formatJOD(item.product.price)} each</p>
+                    <p className="text-sm text-muted-foreground mb-6">{formatJOD(item.product.price)} / {t('cart.qty')}</p>
                     
                     <div className="flex items-center justify-between mt-auto">
                       <div className="flex items-center gap-1 bg-secondary rounded-full p-1 border border-border/50">
@@ -77,7 +80,7 @@ export function CartPage() {
                         className="text-destructive hover:text-destructive hover:bg-destructive/10 rounded-full"
                         onClick={() => removeItem(item.product.id)}
                       >
-                        <Trash2 className="h-4 w-4 mr-2" /> Remove
+                        <Trash2 className="h-4 w-4 mr-2" /> {t('cart.remove')}
                       </Button>
                     </div>
                   </div>
@@ -87,23 +90,23 @@ export function CartPage() {
             
             <div className="lg:col-span-4">
               <div className="bg-card border border-border/50 rounded-3xl p-8 shadow-sm sticky top-28">
-                <h3 className="text-xl font-bold font-display mb-6">Order Summary</h3>
+                <h3 className="text-xl font-bold font-display mb-6">{t('cart.summary')}</h3>
                 
                 <div className="space-y-4 text-sm mb-6">
                   <div className="flex justify-between text-muted-foreground">
-                    <span>Subtotal</span>
+                    <span>{t('cart.subtotal')}</span>
                     <span>{formatJOD(total)}</span>
                   </div>
                   <div className="flex justify-between text-muted-foreground">
-                    <span>Shipping</span>
-                    <span>Calculated at checkout</span>
+                    <span>{t('cart.shipping')}</span>
+                    <span>{t('cart.shipping_calc')}</span>
                   </div>
                 </div>
                 
                 <Separator className="my-6" />
                 
                 <div className="flex justify-between items-end mb-8">
-                  <span className="font-semibold text-lg">Estimated Total</span>
+                  <span className="font-semibold text-lg">{t('cart.total')}</span>
                   <span className="font-display font-extrabold text-2xl text-primary">{formatJOD(total)}</span>
                 </div>
                 
@@ -112,7 +115,7 @@ export function CartPage() {
                   className="w-full h-14 rounded-full text-lg shadow-lg shadow-primary/20 hover:shadow-primary/30 hover:-translate-y-0.5 transition-all"
                   onClick={() => setLocation('/checkout')}
                 >
-                  Proceed to Checkout <ArrowRight className="ml-2 h-5 w-5" />
+                  {t('cart.checkout')} <ArrowRight className="ml-2 h-5 w-5 rtl:rotate-180" />
                 </Button>
               </div>
             </div>
