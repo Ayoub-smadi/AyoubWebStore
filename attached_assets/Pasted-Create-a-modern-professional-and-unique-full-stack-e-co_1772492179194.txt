@@ -1,0 +1,131 @@
+Create a modern, professional, and unique full-stack e-commerce website called **"Ayoub Web Store"** with a clean UI/UX and advanced features.
+
+### 🌐 General Requirements
+
+* Modern responsive design (Desktop, Tablet, Mobile)
+* Attractive animations and smooth transitions
+* Professional color palette
+* Support **Dark Mode / Light Mode** with toggle
+* Multi-language support (Arabic RTL + English LTR)
+* Currency: **Jordanian Dinar (JOD - د.أ)**
+* Fast loading and optimized performance
+
+---
+
+### 👤 Authentication System
+
+* Login page
+* Register (Create Account)
+* Forgot Password
+* Secure authentication using JWT
+* Role-based system:
+
+  * Admin
+  * Customer
+
+---
+
+### 🛍️ Store Features (Customer Side)
+
+* Home page with featured products
+* Products listing page
+* Product details page:
+
+  * Product image
+  * Name
+  * Price (JOD)
+  * Stock availability
+  * Quantity selector
+* Shopping cart system
+* Checkout page
+* Shipping cost calculation
+* Order summary before payment
+* User profile page
+* Order history
+
+---
+
+### ⚙️ Admin Dashboard (Important)
+
+Admin is **Ayoub** with full permissions.
+
+Dashboard must include:
+
+#### 📊 Statistics
+
+* Total products
+* Total users
+* Total orders
+* Revenue overview
+
+#### 📦 Product Management
+
+* Add / Edit / Delete products
+* Upload products using **CSV file import**
+  CSV columns:
+* Product Name
+* Price
+* Quantity
+* Image URL
+
+CSV upload automatically creates products in database.
+
+#### 🚚 Shipping Settings
+
+* Add shipping prices
+* Edit shipping cost rules
+* Enable/Disable shipping options
+
+#### 💰 Currency Settings
+
+* Default currency: Jordanian Dinar (JOD)
+* Display prices formatted professionally
+
+---
+
+### 🎨 UI/UX Features
+
+* Modern dashboard layout
+* Sidebar navigation
+* Icons and cards design
+* Product cards with hover effects
+* Toast notifications
+* Loading skeletons
+* Elegant fonts
+
+---
+
+### 🔎 Extra Smart Features
+
+* Product search bar
+* Category filtering
+* Pagination
+* Admin notifications
+* Image preview before upload
+
+---
+
+### 🧱 Suggested Tech Stack
+
+Frontend:
+
+* Angular or React
+* Bootstrap or TailwindCSS
+
+Backend:
+
+* ASP.NET Core Web API
+
+Database:
+
+* SQL Server or Oracle
+
+Authentication:
+
+* JWT Authentication
+
+---
+
+### 🎯 Goal
+
+Build a **complete professional e-commerce platform** ready for real business usage, scalable, cleanly structured, and visually impressive.
