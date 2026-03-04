@@ -120,6 +120,39 @@ const resources = {
       },
       "common": {
         "jod": "JOD"
+      },
+      "admin": {
+        "products": {
+          "title": "Products",
+          "subtitle": "Manage your store inventory.",
+          "import_csv": "Import CSV",
+          "importing": "Importing...",
+          "add_product": "Add Product",
+          "search": "Search products...",
+          "table": {
+            "product": "Product",
+            "category": "Category",
+            "price": "Price",
+            "stock": "Stock",
+            "actions": "Actions"
+          },
+          "dialog": {
+            "add_title": "Add New Product",
+            "edit_title": "Edit Product",
+            "name": "Product Name",
+            "price_label": "Price (JOD)",
+            "stock_label": "Stock Quantity",
+            "category": "Category",
+            "image_url": "Image URL",
+            "description": "Description",
+            "cancel": "Cancel",
+            "save": "Save Changes",
+            "create": "Create Product"
+          },
+          "loading": "Loading...",
+          "no_products": "No products found.",
+          "confirm_delete": "Are you sure?"
+        }
       }
     }
   },
@@ -249,6 +282,39 @@ const resources = {
       },
       "common": {
         "jod": "د.أ"
+      },
+      "admin": {
+        "products": {
+          "title": "المنتجات",
+          "subtitle": "إدارة مخزون متجرك.",
+          "import_csv": "استيراد CSV",
+          "importing": "جاري الاستيراد...",
+          "add_product": "إضافة منتج",
+          "search": "البحث عن المنتجات...",
+          "table": {
+            "product": "المنتج",
+            "category": "الفئة",
+            "price": "السعر",
+            "stock": "المخزون",
+            "actions": "الإجراءات"
+          },
+          "dialog": {
+            "add_title": "إضافة منتج جديد",
+            "edit_title": "تعديل المنتج",
+            "name": "اسم المنتج",
+            "price_label": "السعر (د.أ)",
+            "stock_label": "كمية المخزون",
+            "category": "الفئة",
+            "image_url": "رابط الصورة",
+            "description": "الوصف",
+            "cancel": "إلغاء",
+            "save": "حفظ التغييرات",
+            "create": "إنشاء منتج"
+          },
+          "loading": "جاري التحميل...",
+          "no_products": "لم يتم العثور على منتجات.",
+          "confirm_delete": "هل أنت متأكد؟"
+        }
       }
     }
   }

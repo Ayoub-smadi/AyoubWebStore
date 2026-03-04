@@ -6,6 +6,7 @@ import { Plus, Edit2, Trash2, Search, FileUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { useTranslation } from "react-i18next";
 import {
   Dialog,
   DialogContent,
@@ -17,6 +18,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
 export function ProductsAdminPage() {
+  const { t } = useTranslation();
   const [search, setSearch] = useState("");
   const { data: products, isLoading } = useProducts(search);
   const { mutateAsync: createProduct, isPending: isCreating } = useCreateProduct();
@@ -73,15 +75,15 @@ export function ProductsAdminPage() {
     <AdminLayout>
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
         <div>
-          <h1 className="text-3xl font-display font-bold">Products</h1>
-          <p className="text-muted-foreground mt-1">Manage your store inventory.</p>
+          <h1 className="text-3xl font-display font-bold">{t('admin.products.title')}</h1>
+          <p className="text-muted-foreground mt-1">{t('admin.products.subtitle')}</p>
         </div>
         <div className="flex gap-2">
           <Button variant="outline" onClick={() => importCsv()} disabled={isImporting}>
-            <FileUp className="h-4 w-4 mr-2" /> {isImporting ? "Importing..." : "Import CSV"}
+            <FileUp className="h-4 w-4 mr-2" /> {isImporting ? t('admin.products.importing') : t('admin.products.import_csv')}
           </Button>
           <Button onClick={() => handleOpenDialog()}>
-            <Plus className="h-4 w-4 mr-2" /> Add Product
+            <Plus className="h-4 w-4 mr-2" /> {t('admin.products.add_product')}
           </Button>
         </div>
       </div>
@@ -91,7 +93,7 @@ export function ProductsAdminPage() {
           <div className="relative max-w-sm">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input 
-              placeholder="Search products..." 
+              placeholder={t('admin.products.search')} 
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="pl-9 bg-background"
@@ -102,18 +104,18 @@ export function ProductsAdminPage() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Product</TableHead>
-              <TableHead>Category</TableHead>
-              <TableHead>Price</TableHead>
-              <TableHead>Stock</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
+              <TableHead>{t('admin.products.table.product')}</TableHead>
+              <TableHead>{t('admin.products.table.category')}</TableHead>
+              <TableHead>{t('admin.products.table.price')}</TableHead>
+              <TableHead>{t('admin.products.table.stock')}</TableHead>
+              <TableHead className="text-right">{t('admin.products.table.actions')}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {isLoading ? (
-              <TableRow><TableCell colSpan={5} className="text-center h-24">Loading...</TableCell></TableRow>
+              <TableRow><TableCell colSpan={5} className="text-center h-24">{t('admin.products.loading')}</TableCell></TableRow>
             ) : products?.length === 0 ? (
-              <TableRow><TableCell colSpan={5} className="text-center h-24 text-muted-foreground">No products found.</TableCell></TableRow>
+              <TableRow><TableCell colSpan={5} className="text-center h-24 text-muted-foreground">{t('admin.products.no_products')}</TableCell></TableRow>
             ) : (
               products?.map((product) => (
                 <TableRow key={product.id}>
@@ -136,7 +138,7 @@ export function ProductsAdminPage() {
                     <Button variant="ghost" size="icon" onClick={() => handleOpenDialog(product)}>
                       <Edit2 className="h-4 w-4" />
                     </Button>
-                    <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive" onClick={() => { if(confirm("Are you sure?")) deleteProduct(product.id) }}>
+                    <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive" onClick={() => { if(confirm(t('admin.products.confirm_delete'))) deleteProduct(product.id) }}>
                       <Trash2 className="h-4 w-4" />
                     </Button>
                   </TableCell>
@@ -151,39 +153,39 @@ export function ProductsAdminPage() {
         <DialogContent className="sm:max-w-[500px]">
           <form onSubmit={handleSubmit}>
             <DialogHeader>
-              <DialogTitle>{editingId ? "Edit Product" : "Add New Product"}</DialogTitle>
+              <DialogTitle>{editingId ? t('admin.products.dialog.edit_title') : t('admin.products.dialog.add_title')}</DialogTitle>
             </DialogHeader>
             <div className="space-y-4 py-4">
               <div className="space-y-2">
-                <Label htmlFor="name">Product Name</Label>
+                <Label htmlFor="name">{t('admin.products.dialog.name')}</Label>
                 <Input id="name" required value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="price">Price (JOD)</Label>
+                  <Label htmlFor="price">{t('admin.products.dialog.price_label')}</Label>
                   <Input id="price" type="number" step="0.01" required value={formData.price} onChange={e => setFormData({...formData, price: e.target.value})} />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="stock">Stock Quantity</Label>
+                  <Label htmlFor="stock">{t('admin.products.dialog.stock_label')}</Label>
                   <Input id="stock" type="number" required value={formData.stock} onChange={e => setFormData({...formData, stock: e.target.value})} />
                 </div>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="category">Category</Label>
+                <Label htmlFor="category">{t('admin.products.dialog.category')}</Label>
                 <Input id="category" value={formData.category} onChange={e => setFormData({...formData, category: e.target.value})} />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="imageUrl">Image URL</Label>
+                <Label htmlFor="imageUrl">{t('admin.products.dialog.image_url')}</Label>
                 <Input id="imageUrl" value={formData.imageUrl} onChange={e => setFormData({...formData, imageUrl: e.target.value})} />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="desc">Description</Label>
+                <Label htmlFor="desc">{t('admin.products.dialog.description')}</Label>
                 <Textarea id="desc" rows={3} value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} />
               </div>
             </div>
             <DialogFooter>
-              <Button type="button" variant="outline" onClick={() => setDialogOpen(false)}>Cancel</Button>
-              <Button type="submit" disabled={isCreating || isUpdating}>{editingId ? "Save Changes" : "Create Product"}</Button>
+              <Button type="button" variant="outline" onClick={() => setDialogOpen(false)}>{t('admin.products.dialog.cancel')}</Button>
+              <Button type="submit" disabled={isCreating || isUpdating}>{editingId ? t('admin.products.dialog.save') : t('admin.products.dialog.create')}</Button>
             </DialogFooter>
           </form>
         </DialogContent>
