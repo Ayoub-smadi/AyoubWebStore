@@ -62,7 +62,7 @@ export function ProductsAdminPage() {
     try {
       const formattedData = {
         ...formData,
-        price: formData.price,
+        price: String(formData.price),
         stock: parseInt(formData.stock, 10) || 0,
       };
 
