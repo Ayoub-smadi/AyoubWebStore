@@ -5,6 +5,7 @@ import { Package, Users, ShoppingCart, DollarSign, TrendingUp } from "lucide-rea
 import { Skeleton } from "@/components/ui/skeleton";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
 import { useQuery } from "@tanstack/react-query";
+import { useTranslation } from 'react-i18next';
 
 // Dummy data for revenue chart
 const chartData = [
@@ -20,6 +21,7 @@ const chartData = [
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d'];
 
 export function DashboardPage() {
+  const { t } = useTranslation();
   const { data: stats, isLoading } = useStats();
   const { data: productStats, isLoading: isLoadingProductStats } = useQuery({
     queryKey: ["/api/stats/products"],
@@ -31,17 +33,17 @@ export function DashboardPage() {
   });
 
   const cards = [
-    { title: "Total Revenue", value: stats ? formatJOD(Number(stats.revenue)) : "JOD 0.00", icon: DollarSign, trend: "+12%" },
-    { title: "Total Orders", value: stats?.totalOrders || 0, icon: ShoppingCart, trend: "+5%" },
-    { title: "Products", value: stats?.totalProducts || 0, icon: Package, trend: "+2%" },
-    { title: "Active Users", value: stats?.totalUsers || 0, icon: Users, trend: "+18%" },
+    { title: t('dashboard.total_revenue'), value: stats ? formatJOD(Number(stats.revenue)) : "JOD 0.00", icon: DollarSign, trend: "+12%" },
+    { title: t('dashboard.total_orders'), value: stats?.totalOrders || 0, icon: ShoppingCart, trend: "+5%" },
+    { title: t('dashboard.products'), value: stats?.totalProducts || 0, icon: Package, trend: "+2%" },
+    { title: t('dashboard.active_users'), value: stats?.totalUsers || 0, icon: Users, trend: "+18%" },
   ];
 
   return (
     <AdminLayout>
       <div className="mb-8">
-        <h1 className="text-3xl font-display font-bold">Dashboard Overview</h1>
-        <p className="text-muted-foreground mt-1">Welcome back. Here's what's happening today.</p>
+        <h1 className="text-3xl font-display font-bold">{t('dashboard.title')}</h1>
+        <p className="text-muted-foreground mt-1">{t('dashboard.subtitle')}</p>
       </div>
 
       {isLoading ? (
@@ -70,8 +72,8 @@ export function DashboardPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         <div className="bg-card border border-border rounded-2xl p-6 shadow-sm h-[400px]">
           <div className="mb-6">
-            <h3 className="text-lg font-bold">Revenue Overview</h3>
-            <p className="text-sm text-muted-foreground">Monthly revenue performance</p>
+            <h3 className="text-lg font-bold">{t('dashboard.revenue_overview')}</h3>
+            <p className="text-sm text-muted-foreground">{t('dashboard.revenue_subtitle')}</p>
           </div>
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={chartData} margin={{ top: 5, right: 20, bottom: 25, left: 0 }}>
@@ -89,8 +91,8 @@ export function DashboardPage() {
 
         <div className="bg-card border border-border rounded-2xl p-6 shadow-sm h-[400px]">
           <div className="mb-6">
-            <h3 className="text-lg font-bold">Product Categories</h3>
-            <p className="text-sm text-muted-foreground">Distribution of products by category</p>
+            <h3 className="text-lg font-bold">{t('dashboard.categories')}</h3>
+            <p className="text-sm text-muted-foreground">{t('dashboard.categories_subtitle')}</p>
           </div>
           {isLoadingProductStats ? (
             <div className="flex items-center justify-center h-full">

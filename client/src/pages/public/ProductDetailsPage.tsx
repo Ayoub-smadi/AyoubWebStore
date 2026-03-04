@@ -8,8 +8,10 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Minus, Plus, ShoppingCart, ArrowLeft, CheckCircle2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useTranslation } from 'react-i18next';
 
 export function ProductDetailsPage() {
+  const { t } = useTranslation();
   const { id } = useParams();
   const { data: product, isLoading } = useProduct(Number(id));
   const { addItem } = useCart();
@@ -38,10 +40,10 @@ export function ProductDetailsPage() {
       <div className="min-h-screen bg-background flex flex-col">
         <Navbar />
         <div className="flex-1 flex flex-col items-center justify-center p-8 text-center">
-          <h2 className="text-3xl font-bold mb-4">Product Not Found</h2>
-          <p className="text-muted-foreground mb-8">This product doesn't exist or has been removed.</p>
+          <h2 className="text-3xl font-bold mb-4">{t('products.not_found')}</h2>
+          <p className="text-muted-foreground mb-8">{t('products.not_found_desc')}</p>
           <Link href="/products">
-            <Button size="lg" className="rounded-full"><ArrowLeft className="mr-2 h-4 w-4" /> Back to Shop</Button>
+            <Button size="lg" className="rounded-full"><ArrowLeft className="mr-2 h-4 w-4" /> {t('products.back')}</Button>
           </Link>
         </div>
       </div>
@@ -51,8 +53,8 @@ export function ProductDetailsPage() {
   const handleAddToCart = () => {
     addItem(product, quantity);
     toast({
-      title: "Added to Cart",
-      description: `${quantity}x ${product.name} added to your cart.`,
+      title: t('products.added'),
+      description: `${quantity}x ${product.name} ${t('products.added')}`,
       action: (
         <div className="h-8 w-8 bg-primary/20 rounded-full flex items-center justify-center">
           <CheckCircle2 className="h-5 w-5 text-primary" />
@@ -67,7 +69,7 @@ export function ProductDetailsPage() {
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full flex-1">
         <Link href="/products" className="inline-flex items-center text-muted-foreground hover:text-primary mb-8 font-medium transition-colors">
-          <ArrowLeft className="mr-2 h-4 w-4" /> Back to Products
+          <ArrowLeft className="mr-2 h-4 w-4 rtl:ml-2 rtl:mr-0 rtl:rotate-180" /> {t('products.back')}
         </Link>
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
@@ -89,14 +91,14 @@ export function ProductDetailsPage() {
             )}
             
             {product.category && (
-              <div className="absolute top-8 left-8 bg-background/80 backdrop-blur px-4 py-2 rounded-full border border-border font-medium text-sm shadow-sm">
+              <div className="absolute top-8 left-8 bg-background/80 backdrop-blur px-4 py-2 rounded-full border border-border font-medium text-sm shadow-sm rtl:left-auto rtl:right-8">
                 {product.category}
               </div>
             )}
           </div>
           
           {/* Product Info */}
-          <div className="flex flex-col pt-4 lg:pt-8 animate-in slide-in-from-right-8 duration-700">
+          <div className="flex flex-col pt-4 lg:pt-8 animate-in slide-in-from-right-8 duration-700 rtl:slide-in-from-left-8">
             <h1 className="text-4xl sm:text-5xl font-display font-bold text-foreground leading-tight mb-4 text-balance">
               {product.name}
             </h1>
@@ -111,7 +113,7 @@ export function ProductDetailsPage() {
             
             <div className="bg-card border border-border rounded-3xl p-6 shadow-sm mb-8">
               <div className="flex items-center justify-between mb-6">
-                <span className="font-semibold">Quantity</span>
+                <span className="font-semibold">{t('products.quantity')}</span>
                 <div className="flex items-center gap-4 bg-secondary rounded-full p-1 border border-border/50">
                   <Button 
                     variant="ghost" 
@@ -136,9 +138,9 @@ export function ProductDetailsPage() {
               </div>
               
               <div className="flex items-center justify-between text-sm">
-                <span className="text-muted-foreground">Availability</span>
+                <span className="text-muted-foreground">{t('products.availability')}</span>
                 <span className={`font-semibold ${product.stock > 0 ? "text-green-500" : "text-destructive"}`}>
-                  {product.stock > 0 ? `${product.stock} in stock` : "Out of stock"}
+                  {product.stock > 0 ? t('products.in_stock', { count: product.stock }) : t('products.out_of_stock')}
                 </span>
               </div>
             </div>
@@ -149,13 +151,13 @@ export function ProductDetailsPage() {
               onClick={handleAddToCart}
               disabled={product.stock === 0}
             >
-              <ShoppingCart className="mr-3 h-5 w-5" />
-              {product.stock === 0 ? "Out of Stock" : "Add to Cart"}
+              <ShoppingCart className="mr-3 h-5 w-5 rtl:ml-3 rtl:mr-0" />
+              {product.stock === 0 ? t('products.out_of_stock') : t('products.add_to_cart')}
             </Button>
             
             <div className="mt-8 flex items-center justify-center gap-6 text-sm text-muted-foreground">
-              <div className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-primary" /> Secure Payment</div>
-              <div className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-primary" /> Free Returns</div>
+              <div className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-primary" /> {t('products.secure_payment')}</div>
+              <div className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-primary" /> {t('products.free_returns')}</div>
             </div>
           </div>
         </div>

@@ -5,8 +5,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ShoppingBag, ArrowRight } from "lucide-react";
+import { useTranslation } from 'react-i18next';
 
 export function LoginPage() {
+  const { t } = useTranslation();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { login, isLoggingIn } = useAuth();
@@ -37,13 +39,13 @@ export function LoginPage() {
 
       <div className="w-full max-w-md bg-card border border-border/50 rounded-[2rem] p-8 shadow-xl shadow-black/5 animate-in slide-in-from-bottom-8 duration-500">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-display font-bold mb-2">Welcome Back</h1>
-          <p className="text-muted-foreground">Sign in to your account to continue</p>
+          <h1 className="text-3xl font-display font-bold mb-2">{t('auth.login_title')}</h1>
+          <p className="text-muted-foreground">{t('auth.login_subtitle')}</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-2">
-            <Label htmlFor="username">Username</Label>
+            <Label htmlFor="username">{t('auth.username')}</Label>
             <Input 
               id="username" 
               required 
@@ -54,7 +56,7 @@ export function LoginPage() {
           </div>
           <div className="space-y-2">
             <div className="flex justify-between items-center">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password">{t('auth.password')}</Label>
             </div>
             <Input 
               id="password" 
@@ -71,21 +73,21 @@ export function LoginPage() {
             disabled={isLoggingIn}
             className="w-full h-12 text-base rounded-xl shadow-lg shadow-primary/20 transition-all"
           >
-            {isLoggingIn ? "Signing in..." : "Sign In"}
+            {isLoggingIn ? t('auth.signing_in') : t('auth.signin')}
           </Button>
         </form>
 
         <div className="mt-8 text-center text-sm text-muted-foreground">
-          Don't have an account?{" "}
+          {t('auth.no_account')}{" "}
           <Link href="/register" className="text-primary font-semibold hover:underline">
-            Create one
+            {t('auth.create_account')}
           </Link>
         </div>
       </div>
       
       {/* Admin hint */}
       <div className="mt-8 text-xs text-muted-foreground/60 text-center max-w-sm">
-        Admin login: Username <code className="bg-background px-1 py-0.5 rounded">Ayoub</code> / Password <code className="bg-background px-1 py-0.5 rounded">password</code>
+        {t('auth.admin_hint', { user: 'Ayoub', pass: 'password' })}
       </div>
     </div>
   );

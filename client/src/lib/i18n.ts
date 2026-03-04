@@ -40,7 +40,38 @@ const resources = {
         "clear": "Clear Filters",
         "out_of_stock": "Out of Stock",
         "add_to_cart": "Add to Cart",
-        "added": "Added to Cart"
+        "added": "Added to Cart",
+        "back": "Back to Products",
+        "not_found": "Product Not Found",
+        "not_found_desc": "This product doesn't exist or has been removed.",
+        "quantity": "Quantity",
+        "availability": "Availability",
+        "in_stock": "{{count}} in stock",
+        "secure_payment": "Secure Payment",
+        "free_returns": "Free Returns"
+      },
+      "auth": {
+        "login_title": "Welcome Back",
+        "login_subtitle": "Sign in to your account to continue",
+        "username": "Username",
+        "password": "Password",
+        "signin": "Sign In",
+        "signing_in": "Signing in...",
+        "no_account": "Don't have an account?",
+        "create_account": "Create one",
+        "admin_hint": "Admin login: Username {{user}} / Password {{pass}}"
+      },
+      "dashboard": {
+        "title": "Dashboard Overview",
+        "subtitle": "Welcome back. Here's what's happening today.",
+        "total_revenue": "Total Revenue",
+        "total_orders": "Total Orders",
+        "products": "Products",
+        "active_users": "Active Users",
+        "revenue_overview": "Revenue Overview",
+        "revenue_subtitle": "Monthly revenue performance",
+        "categories": "Product Categories",
+        "categories_subtitle": "Distribution of products by category"
       },
       "cart": {
         "title": "Shopping Cart",
@@ -122,7 +153,38 @@ const resources = {
         "clear": "مسح الفلاتر",
         "out_of_stock": "نفدت الكمية",
         "add_to_cart": "إضافة للسلة",
-        "added": "تمت الإضافة"
+        "added": "تمت الإضافة",
+        "back": "العودة للمنتجات",
+        "not_found": "المنتج غير موجود",
+        "not_found_desc": "هذا المنتج غير موجود أو تم حذفه.",
+        "quantity": "الكمية",
+        "availability": "التوفر",
+        "in_stock": "متوفر {{count}} قطعة",
+        "secure_payment": "دفع آمن",
+        "free_returns": "إرجاع مجاني"
+      },
+      "auth": {
+        "login_title": "مرحباً بعودتك",
+        "login_subtitle": "سجل دخولك للمتابعة",
+        "username": "اسم المستخدم",
+        "password": "كلمة المرور",
+        "signin": "تسجيل الدخول",
+        "signing_in": "جاري الدخول...",
+        "no_account": "ليس لديك حساب؟",
+        "create_account": "أنشئ حساباً جديداً",
+        "admin_hint": "حساب المسؤول: اسم المستخدم {{user}} / كلمة المرور {{pass}}"
+      },
+      "dashboard": {
+        "title": "نظرة عامة على لوحة التحكم",
+        "subtitle": "مرحباً بك مجدداً. إليك ما يحدث اليوم.",
+        "total_revenue": "إجمالي الإيرادات",
+        "total_orders": "إجمالي الطلبات",
+        "products": "المنتجات",
+        "active_users": "المستخدمين النشطين",
+        "revenue_overview": "نظرة عامة على الإيرادات",
+        "revenue_subtitle": "أداء الإيرادات الشهري",
+        "categories": "أصناف المنتجات",
+        "categories_subtitle": "توزيع المنتجات حسب الصنف"
       },
       "cart": {
         "title": "سلة التسوق",
