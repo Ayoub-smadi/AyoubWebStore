@@ -6,11 +6,12 @@ import { useAuth } from "@/hooks/use-auth";
 import { useCreateOrder } from "@/hooks/use-orders";
 import { formatJOD } from "@/lib/utils";
 import { Navbar } from "@/components/layout/Navbar";
+import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { ShieldCheck, Truck, CreditCard } from "lucide-react";
+import { ShieldCheck, Truck, CreditCard, CheckCircle2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 export function CheckoutPage() {
@@ -181,6 +182,7 @@ export function CheckoutPage() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
