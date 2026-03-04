@@ -238,6 +238,15 @@ const resources = {
         "success": "تم تأكيد طلبك بنجاح!",
         "failed": "فشل في إتمام الطلب"
       },
+      "categories": {
+        "Electronics": "إلكترونيات",
+        "Furniture": "أثاث",
+        "Fashion": "أزياء",
+        "Accessories": "إكسسوارات",
+        "Home": "المنزل",
+        "Beauty": "الجمال",
+        "all": "الكل"
+      },
       "common": {
         "jod": "د.أ"
       }

@@ -12,7 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { useTranslation } from 'react-i18next';
 
 export function ProductsPage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState<string | undefined>();
   const { data: products, isLoading } = useProducts(search, category);
@@ -54,7 +54,7 @@ export function ProductsPage() {
                   className="rounded-full whitespace-nowrap"
                   onClick={() => setCategory(c)}
                 >
-                  {c}
+                  {t(`categories.${c}`, c)}
                 </Button>
               ))}
             </div>
@@ -106,13 +106,15 @@ export function ProductsPage() {
                     <div className="absolute top-4 left-4 flex flex-col gap-2 rtl:left-auto rtl:right-4">
                       {product.category && (
                         <Badge variant="secondary" className="bg-background/80 backdrop-blur-md hover:bg-background/90 text-xs">
-                          {product.category}
+                          {t(`categories.${product.category}`, product.category)}
                         </Badge>
                       )}
                     </div>
                   </div>
                   <div className="p-6 flex flex-col flex-1">
-                    <h3 className="font-bold text-lg mb-1 line-clamp-1 text-foreground">{product.name}</h3>
+                    <h3 className="font-bold text-lg mb-1 line-clamp-1 text-foreground">
+                      {i18n.language === 'ar' && product.nameAr ? product.nameAr : product.name}
+                    </h3>
                     <div className="flex items-center justify-between mt-auto pt-4">
                       <span className="font-display font-bold text-xl text-primary">
                         {formatJOD(product.price)}

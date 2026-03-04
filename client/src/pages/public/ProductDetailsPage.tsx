@@ -11,7 +11,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useTranslation } from 'react-i18next';
 
 export function ProductDetailsPage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { id } = useParams();
   const { data: product, isLoading } = useProduct(Number(id));
   const { addItem } = useCart();
@@ -52,9 +52,10 @@ export function ProductDetailsPage() {
 
   const handleAddToCart = () => {
     addItem(product, quantity);
+    const productName = i18n.language === 'ar' && product.nameAr ? product.nameAr : product.name;
     toast({
       title: t('products.added'),
-      description: `${quantity}x ${product.name} ${t('products.added')}`,
+      description: `${quantity}x ${productName} ${t('products.added')}`,
       action: (
         <div className="h-8 w-8 bg-primary/20 rounded-full flex items-center justify-center">
           <CheckCircle2 className="h-5 w-5 text-primary" />
@@ -92,7 +93,7 @@ export function ProductDetailsPage() {
             
             {product.category && (
               <div className="absolute top-8 left-8 bg-background/80 backdrop-blur px-4 py-2 rounded-full border border-border font-medium text-sm shadow-sm rtl:left-auto rtl:right-8">
-                {product.category}
+                {t(`categories.${product.category}`, product.category)}
               </div>
             )}
           </div>
@@ -100,7 +101,7 @@ export function ProductDetailsPage() {
           {/* Product Info */}
           <div className="flex flex-col pt-4 lg:pt-8 animate-in slide-in-from-right-8 duration-700 rtl:slide-in-from-left-8">
             <h1 className="text-4xl sm:text-5xl font-display font-bold text-foreground leading-tight mb-4 text-balance">
-              {product.name}
+              {i18n.language === 'ar' && product.nameAr ? product.nameAr : product.name}
             </h1>
             
             <div className="text-3xl font-display font-extrabold text-primary mb-8">
@@ -108,7 +109,11 @@ export function ProductDetailsPage() {
             </div>
             
             <div className="prose prose-neutral dark:prose-invert max-w-none mb-10 text-muted-foreground text-lg leading-relaxed">
-              <p>{product.description || "No description provided for this premium item."}</p>
+              <p>
+                {i18n.language === 'ar' && product.descriptionAr 
+                  ? product.descriptionAr 
+                  : (product.description || "No description provided for this premium item.")}
+              </p>
             </div>
             
             <div className="bg-card border border-border rounded-3xl p-6 shadow-sm mb-8">
