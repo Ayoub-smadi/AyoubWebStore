@@ -60,10 +60,16 @@ export function ProductsAdminPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      const formattedData = {
+        ...formData,
+        price: formData.price,
+        stock: parseInt(formData.stock, 10) || 0,
+      };
+
       if (editingId) {
-        await updateProduct({ id: editingId, ...formData });
+        await updateProduct({ id: editingId, ...formattedData });
       } else {
-        await createProduct(formData as any);
+        await createProduct(formattedData as any);
       }
       setDialogOpen(false);
     } catch (err) {

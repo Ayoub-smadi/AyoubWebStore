@@ -104,10 +104,15 @@ export async function registerRoutes(
   app.post(api.products.create.path, async (req, res) => {
     if (!req.isAuthenticated() || (req.user as any).role !== 'admin') return res.status(401).json({ message: "Unauthorized" });
     try {
+      console.log("Create product request body:", req.body);
       const input = api.products.create.input.parse(req.body);
       const product = await storage.createProduct(input);
       res.status(201).json(product);
     } catch (err) {
+      console.error("Product creation error:", err);
+      if (err instanceof z.ZodError) {
+        return res.status(400).json({ message: "Invalid input", errors: err.errors });
+      }
       res.status(400).json({ message: "Invalid input" });
     }
   });
@@ -120,6 +125,10 @@ export async function registerRoutes(
       if (!product) return res.status(404).json({ message: "Not found" });
       res.json(product);
     } catch (err) {
+      console.error("Product update error:", err);
+      if (err instanceof z.ZodError) {
+        return res.status(400).json({ message: "Invalid input", errors: err.errors });
+      }
       res.status(400).json({ message: "Invalid input" });
     }
   });
