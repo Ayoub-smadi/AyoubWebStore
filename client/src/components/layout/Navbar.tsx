@@ -37,6 +37,8 @@ export function Navbar() {
     i18n.changeLanguage(newLang);
     document.documentElement.dir = newLang === 'ar' ? 'rtl' : 'ltr';
     document.documentElement.lang = newLang;
+    // Force a re-render or layout update if needed, 
+    // though i18next and react-i18next usually handle this.
   };
 
   const handleLogout = async () => {
