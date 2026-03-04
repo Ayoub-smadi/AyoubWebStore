@@ -7,8 +7,10 @@ import { Label } from "@/components/ui/label";
 import { ShoppingBag } from "lucide-react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { useTranslation } from "react-i18next";
 
 export function RegisterPage() {
+  const { t } = useTranslation();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { register, isRegistering } = useAuth();
@@ -39,13 +41,13 @@ export function RegisterPage() {
 
         <div className="w-full max-w-md bg-card border border-border/50 rounded-[2rem] p-8 shadow-xl shadow-black/5 animate-in slide-in-from-bottom-8 duration-500">
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-display font-bold mb-2">Create Account</h1>
-            <p className="text-muted-foreground">Join us to start shopping</p>
+            <h1 className="text-3xl font-display font-bold mb-2">{t('auth.register_title', 'Create Account')}</h1>
+            <p className="text-muted-foreground">{t('auth.register_subtitle', 'Join us to start shopping')}</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="username">Choose a Username</Label>
+              <Label htmlFor="username">{t('auth.username_label', 'Choose a Username')}</Label>
               <Input 
                 id="username" 
                 required 
@@ -55,7 +57,7 @@ export function RegisterPage() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password">Create Password</Label>
+              <Label htmlFor="password">{t('auth.password_label', 'Create Password')}</Label>
               <Input 
                 id="password" 
                 type="password" 
@@ -71,14 +73,14 @@ export function RegisterPage() {
               disabled={isRegistering}
               className="w-full h-12 text-base rounded-xl shadow-lg shadow-primary/20 transition-all"
             >
-              {isRegistering ? "Creating account..." : "Sign Up"}
+              {isRegistering ? t('auth.creating_account', 'Creating account...') : t('auth.signup', 'Sign Up')}
             </Button>
           </form>
 
           <div className="mt-8 text-center text-sm text-muted-foreground">
-            Already have an account?{" "}
+            {t('auth.have_account', 'Already have an account?')}{" "}
             <Link href="/login" className="text-primary font-semibold hover:underline">
-              Sign in
+              {t('auth.signin', 'Sign in')}
             </Link>
           </div>
         </div>
